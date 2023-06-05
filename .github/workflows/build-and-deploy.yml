@@ -46,7 +46,7 @@ jobs:
         run: ./.github/workflows/rec "*\.tex$" "xelatex -pdf"
 
       - name: Recursively compile (doc|ppt)x? files
-        run: ./.github/workflows/rec "*\.(doc|ppt)x?$" "libreoffice --headless --convert-to pdf --outdir ."
+        run: ./.github/workflows/rec "*\.((doc|ppt)x?)|odt$" "libreoffice --headless --convert-to pdf --outdir ."
 
       - name: Recursively compile md files
         run: ./.github/workflows/rec "*\.md$" ${GITHUB_WORKSPACE}/.github/workflows/md2pdf
