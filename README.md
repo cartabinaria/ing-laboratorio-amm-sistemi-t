@@ -1,13 +1,13 @@
-# \<Insegnamento\>
+# Laboratorio di amministrazione di sistemi T (28072)
 
-Una raccolta di risorse per l'insegnamento di \<Insegnamento\> del Corso di
-Laurea in Informatica.
+Una raccolta di risorse per l'insegnamento di Laboratorio di amministrazione
+di sistemi T (28072) del Corso di Laurea in Ingegneria informatica.
 
 ## Presentazione
 
-[Questo sito](https://csunibo.github.io/<insegnamento>) elenca staticamente
-i contenuti della raccolta. Qui, documenti e presentazioni con estensione
-`.md`, `.tex`, `.doc`, `.docx`, `.ppt` o `.pptx` sono automaticamente
+[Questo sito](https://csunibo.github.io/ng-laboratorio-amm-sistemi-t) elenca
+staticamente i contenuti della raccolta. Qui, documenti e presentazioni con
+estensione `.md`, `.tex`, `.doc`, `.docx`, `.ppt` o `.pptx` sono automaticamente
 convertiti in formato PDF.
 
 ## Contribuire
