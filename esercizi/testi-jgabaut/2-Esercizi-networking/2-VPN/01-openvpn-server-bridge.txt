@@ -1,0 +1,44 @@
+mode server
+
+port 1194
+proto udp
+ 
+# bridging directive - this is needed to use the br0
+dev tap0
+# script to attach the tap0 interface to the bridge
+up "/etc/openvpn/up.sh br0"
+down "/etc/openvpn/down.sh br0"
+ 
+persist-key
+persist-tun
+ 
+#certificates and encryption
+ca keys/ca.crt
+cert keys/server.crt
+key keys/server.key  # This file should be kept secret
+dh keys/dh1024.pem
+cipher BF-CBC   # Blowfish (default)
+comp-lzo        # compression
+
+
+# enable communication between vpn clients
+client-to-client
+# enable multiple access from the same client certificate
+duplicate-cn
+
+# DHCP configuration #
+# ipp.txt saves the status of the dhcp leases
+ifconfig-pool-persist ipp.txt
+# pool of addresses available for VPN leases
+# format: <server IP> <netmask> <pool start IP> <pool end IP>
+server-bridge 10.9.9.254 255.255.255.0 10.9.9.10 10.9.9.20
+# maximium number of clients connected at a time
+max-clients 10
+
+# log and security #
+user nobody
+group nogroup
+keepalive 10 120
+status openvpn-status.log
+verb 3
+script-security 3

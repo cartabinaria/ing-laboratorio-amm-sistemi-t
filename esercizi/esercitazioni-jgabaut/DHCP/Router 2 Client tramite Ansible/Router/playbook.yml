@@ -1,0 +1,84 @@
+---
+- hosts: all
+  tasks:
+    - name: Add file .vimrc to home directory and set no-compatibility mode for vi
+      become: true
+      ansible.builtin.lineinfile:
+        path: /home/vagrant/.vimrc
+        line: 'set nocompatible'
+        state: present
+        create: yes
+
+    - name: Set a hostname
+      become: true
+      ansible.builtin.hostname:
+        name: Router
+
+    - name: Fix allow-hotplug bug
+      become: true
+      ansible.builtin.replace:
+        path: /etc/network/interfaces
+        regexp: '^allow-hotplug'
+        replace: 'auto'
+
+    - name: Copy a new network configuration "interfaces" file into place, after passing validation with ifup
+      become: true
+      ansible.builtin.copy:
+         src: ./eth1
+         dest: /etc/network/interfaces.d/eth1
+         validate: /usr/sbin/ifup --no-act -i %s eth1
+      notify: Restart Networking
+
+    - name: Copy a new network configuration "interfaces" file into place, after passing validation with ifup
+      become: true
+      ansible.builtin.copy:
+         src: ./eth2
+         dest: /etc/network/interfaces.d/eth2
+         validate: /usr/sbin/ifup --no-act -i %s eth2
+      notify: Restart Networking
+
+    - name: Install dnsmasq
+      become: true
+      ansible.builtin.apt:
+         name: dnsmasq
+         state: present
+         update_cache: yes
+
+    - name: Configure DHCP range for LAN1 and LAN2
+      become: true
+      ansible.builtin.blockinfile:
+        path: /etc/dnsmasq.conf
+        state: present
+        create: yes
+        block: |
+          interface=eth1
+          interface=eth2
+          dhcp-range=set:first,10.10.1.100,10.10.1.200,12h
+          dhcp-range=set:second,10.10.2.100,10.10.2.200,12h
+          dhcp-option=tag:second, 3, 10.10.2.15 #default route won't be set if we give a static route
+          dhcp-option=tag:second, 121, 10.10.1.0/24,10.10.2.1
+          dhcp-option=tag:first, 3, 10.10.1.15 #default route won't be set if we give a static route
+          dhcp-option=tag:first, 121, 10.10.2.0/24,10.10.1.1
+      notify: Restart Dnsmasq
+
+    - name: Set ipv4 forwarding on
+      become: true
+      ansible.posix.sysctl:
+        name: net.ipv4.ip_forward
+        value: '1'
+        sysctl_set: yes
+        state: present
+        reload: yes
+
+  handlers:
+    - name: Restart Networking
+      become: true
+      ansible.builtin.service:
+        name: networking
+        state: restarted
+ 
+    - name: Restart Dnsmasq
+      become: true
+      ansible.builtin.service:
+        name: dnsmasq
+        state: restarted

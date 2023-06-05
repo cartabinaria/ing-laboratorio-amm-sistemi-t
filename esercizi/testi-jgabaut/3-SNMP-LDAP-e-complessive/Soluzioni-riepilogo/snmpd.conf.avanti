@@ -1,0 +1,4 @@
+specificare come si configurano community e views per poter accedere al MIB
+
+aggiungere la riga:
+proc rsyslogd
