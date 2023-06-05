@@ -1,0 +1,20 @@
+netmon
+
+1) file netmon.sh 
+
+Monitorare con tcpdump il traffico ssh tra la VM Client e la VM Server, sulla VM Router, loggando attraverso syslog sul file /var/log/newconn l'inizio e la fine di ogni  connessione diretta da Client a Server
+
+2) file connection-monitor.sh
+
+al verificarsi di questi eventi, avviare/fermare il monitoraggio con traffic-monitor.sh della specifica connessione per poter poi controllare il relativo traffico
+
+3) file traffic-monitor.sh
+
+durante la "vita" di ogni connessione, tracciata con una specifica istanza di tcpdump, al superamento di una certa soglia espressa in numero di pacchetti per minuto, usare log-user.sh per individuare l'utente responsabile e loggare lo username nel file /var/log/excess;
+
+4) file log-user.sh e snmpd.conf
+
+Si connette via SNMP alla sorgente del traffico eccessivo  ed individua l'utente responsabile (indicare in snmpd.conf come sono configurati gli agent per consentire tale controllo)
+
+
+curare tramite signal handling la pulizia automatica di processi  in caso di terminazione volontaria o involontaria del procedimento di monitoraggio

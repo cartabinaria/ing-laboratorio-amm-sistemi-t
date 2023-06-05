@@ -1,0 +1,19 @@
+[Unit]
+Description=Imposta servizio di logging
+Documentation=
+DefaultDependencies=no
+Requires=ifupdown-pre.service
+Wants=network.target
+After=local-fs.target network-pre.target apparmor.service systemd-sysctl.service systemd-modules-load.service ifupdown-pre.service
+Before=network.target shutdown.target network-online.target
+Conflicts=shutdown.target
+
+[Install]
+RequiredBy=mymon.service
+
+[Service]
+Type=oneshot
+ExecStart=usr/bin/logstart.sh
+ExecStop=usr/bin/logend.sh
+RemainAfterExit=true
+TimeoutStartSec=5min

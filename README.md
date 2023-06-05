@@ -5,7 +5,7 @@ di sistemi T (28072) del Corso di Laurea in Ingegneria informatica.
 
 ## Presentazione
 
-[Questo sito](https://csunibo.github.io/ng-laboratorio-amm-sistemi-t) elenca
+[Questo sito](https://csunibo.github.io/ing-laboratorio-amm-sistemi-t) elenca
 staticamente i contenuti della raccolta. Qui, documenti e presentazioni con
 estensione `.md`, `.tex`, `.doc`, `.docx`, `.ppt` o `.pptx` sono automaticamente
 convertiti in formato PDF.

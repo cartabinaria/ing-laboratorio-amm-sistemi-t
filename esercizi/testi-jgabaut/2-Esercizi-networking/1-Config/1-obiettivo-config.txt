@@ -1,0 +1,25 @@
+Materiale di riferimento: Richiami di configurazione Linux
+
+Configurare le macchine virtuali in modo che:
+
+    Client e Router condividano la rete 10.1.1.0/24
+        Client con indirizzo 10.1.1.1 su eth2
+        Router con indirizzo 10.1.1.254 su eth2
+    Router e Server condividano la rete 10.9.9.0/24
+        Server con indirizzo 10.9.9.1 su eth1
+        Router con indirizzo 10.9.9.254 su eth1
+    Client e Server si vedano attraverso Router 
+
+Eseguire i test specificati
+
+TEST:
+
+    prima di abilitare l'instradamento
+        tentare da Client un ping di Server (10.9.9.1)
+        verificare con wireshark su Router che i pacchetti arrivano correttamente al router ma non vengono instradati
+    dopo l'abilitazione dell'instradamento
+        sempre con wireshark osservare i 4 pacchetti catturati per ogni round di ping (echo_request in entrata su eth2 ed in uscita da eth1, echo_reply viceversa)
+        effettuare da Client una connessione ssh verso Server, riscontrare l'effetto nelle 3 macchine sull'output di "netstat -anp"
+
+
+
